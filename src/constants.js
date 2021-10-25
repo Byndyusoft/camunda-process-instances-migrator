@@ -16,10 +16,5 @@
 
 "use strict";
 
-function getHelloWorldMessage() {
-  return "Hello World!";
-}
-
-module.exports = {
-  getHelloWorldMessage,
-};
+module.exports.CHECK_BATCH_COMPLETION_TIMEOUT = 7000;
+module.exports.DELETE_CAMUNDA_ENTITY_TIMEOUT = 5000;
