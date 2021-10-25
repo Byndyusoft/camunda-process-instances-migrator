@@ -5,5 +5,13 @@
     "@byndyusoft/eslint-config/javascript",
     "@byndyusoft/eslint-config/node",
     "plugin:prettier/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
   ]
 }
