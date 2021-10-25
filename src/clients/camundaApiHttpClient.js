@@ -19,7 +19,6 @@
 /* eslint-disable consistent-return */
 
 const { default: axios } = require("axios");
-const logger = require("pino").pino({ prettyPrint: true });
 
 module.exports = class CamundaApiHttpClient {
   /**
@@ -49,15 +48,15 @@ module.exports = class CamundaApiHttpClient {
    */
   getProcessInstancesByProcessDefinitionId(processDefinitionId) {
     if (!processDefinitionId) {
-      logger.warn(
+      console.warn(
         "Get process instances by process definition id: processDefinitionId is not defined",
       );
       return [];
     }
 
-    logger.debug(
-      { processDefinitionId },
+    console.debug(
       "Start to get process instances by process definition identifier",
+      { processDefinitionId },
     );
 
     return this.axiosInstance
@@ -66,9 +65,9 @@ module.exports = class CamundaApiHttpClient {
         return status === 200 ? data : [];
       })
       .catch((error) => {
-        logger.error(
-          { processDefinitionId, error },
+        console.error(
           "Getting process instances by process definition identifier has completed with error",
+          { processDefinitionId, error },
         );
 
         return [];
@@ -83,15 +82,15 @@ module.exports = class CamundaApiHttpClient {
    */
   getProcessDefinitionLastVersionIdByDefinitionKey(definitionKey) {
     if (!definitionKey) {
-      logger.warn(
+      console.warn(
         "Get process definition last version id by definition key: definitionKey is not defined",
       );
       return;
     }
 
-    logger.debug(
-      { definitionKey },
+    console.debug(
       "Start to get process definition last version id by definition key",
+      { definitionKey },
     );
 
     return this.axiosInstance
@@ -100,9 +99,9 @@ module.exports = class CamundaApiHttpClient {
         return status === 200 ? data.id : undefined;
       })
       .catch((error) => {
-        logger.error(
-          { definitionKey, error },
+        console.error(
           "Getting process definition last version identifier by definition key has completed with error",
+          { definitionKey, error },
         );
       });
   }
@@ -115,16 +114,15 @@ module.exports = class CamundaApiHttpClient {
    */
   getProcessDefinitionById(definitionId) {
     if (!definitionId) {
-      logger.warn(
+      console.warn(
         "Get process definition by identifier: definitionId is not defined",
       );
       return;
     }
 
-    logger.debug(
-      { definitionId },
-      "Start to get process definition by identifier",
-    );
+    console.debug("Start to get process definition by identifier", {
+      definitionId,
+    });
 
     return this.axiosInstance
       .get(`/process-definition/${definitionId}`)
@@ -132,9 +130,9 @@ module.exports = class CamundaApiHttpClient {
         return status === 200 ? data : undefined;
       })
       .catch((error) => {
-        logger.error(
-          { definitionId, error },
+        console.error(
           "Getting process definition by identifier has completed with error",
+          { definitionId, error },
         );
       });
   }
@@ -146,7 +144,7 @@ module.exports = class CamundaApiHttpClient {
    * @returns {Promise<Array<any>>} Array of process definitions
    */
   listProcessDefinitions(filters) {
-    logger.debug({ filters }, "Start to list process definitions by filters");
+    console.debug("Start to list process definitions by filters", { filters });
 
     return this.axiosInstance
       .get("/process-definition", { params: filters })
@@ -154,9 +152,9 @@ module.exports = class CamundaApiHttpClient {
         return status === 200 ? data : [];
       })
       .catch((error) => {
-        logger.error(
-          { filters, error },
+        console.error(
           "Getting process definitions list by filters has completed with error",
+          { filters, error },
         );
         return [];
       });
@@ -171,15 +169,15 @@ module.exports = class CamundaApiHttpClient {
    */
   generateMigrationPlan(sourceProcessDefinitionId, targetProcessDefinitionId) {
     if (!sourceProcessDefinitionId || !targetProcessDefinitionId) {
-      logger.warn(
+      console.warn(
         "Generate migration plan: sourceProcessDefinitionId and / or targetProcessDefinitionId is not defined",
       );
       return;
     }
 
-    logger.debug(
-      { sourceProcessDefinitionId, targetProcessDefinitionId },
+    console.debug(
       "Start to generate migration plan for source version and target version",
+      { sourceProcessDefinitionId, targetProcessDefinitionId },
     );
 
     const body = {
@@ -194,9 +192,9 @@ module.exports = class CamundaApiHttpClient {
         return status === 200 ? data : undefined;
       })
       .catch((error) => {
-        logger.error(
-          { sourceProcessDefinitionId, targetProcessDefinitionId, error },
+        console.error(
           "Generating migration plan for source version and target version has completed with error",
+          { sourceProcessDefinitionId, targetProcessDefinitionId, error },
         );
       });
   }
@@ -209,13 +207,13 @@ module.exports = class CamundaApiHttpClient {
    */
   migrateProcessInstancesForMigrationPlan(migrationPlan) {
     if (!migrationPlan) {
-      logger.warn(
+      console.warn(
         "Migrate process instances for migration plan: migrationPlan is not defined",
       );
       return;
     }
 
-    logger.debug("Start to migrate migration plan");
+    console.debug("Start to migrate migration plan");
 
     const body = {
       processInstanceQuery: {
@@ -231,10 +229,10 @@ module.exports = class CamundaApiHttpClient {
         return status === 200 ? data : undefined;
       })
       .catch((error) => {
-        logger.error(
-          { migrationPlan, error },
-          "Migration for migration plan has completed with error",
-        );
+        console.error("Migration for migration plan has completed with error", {
+          migrationPlan,
+          error,
+        });
       });
   }
 
@@ -250,15 +248,15 @@ module.exports = class CamundaApiHttpClient {
     targetProcessDefinitionId,
   ) {
     if (!sourceProcessDefinitionId || !targetProcessDefinitionId) {
-      logger.warn(
+      console.warn(
         "Migrate process instances: sourceProcessDefinitionId and / or targetProcessDefinitionId is not defined",
       );
       return;
     }
 
-    logger.debug(
-      { sourceProcessDefinitionId, targetProcessDefinitionId },
+    console.debug(
       "Start to migrate process instances from source version to target version",
+      { sourceProcessDefinitionId, targetProcessDefinitionId },
     );
 
     const migrationPlan = await this.generateMigrationPlan(
@@ -275,7 +273,7 @@ module.exports = class CamundaApiHttpClient {
    * @returns {Promise<Array<any>>} Array of batches statictics
    */
   getBatchesStatistics(filters) {
-    logger.debug("Start to get batches statistics by filters");
+    console.debug("Start to get batches statistics by filters");
 
     return this.axiosInstance
       .get("/batch/statistics", { params: filters })
@@ -283,9 +281,9 @@ module.exports = class CamundaApiHttpClient {
         return status === 200 ? data : [];
       })
       .catch((error) => {
-        logger.error(
-          { filters, error },
+        console.error(
           "Getting batches statistics with filters has completed with error",
+          { filters, error },
         );
         return [];
       });
@@ -299,13 +297,13 @@ module.exports = class CamundaApiHttpClient {
    */
   deleteDeployment(deploymentId) {
     if (!deploymentId) {
-      logger.warn(
+      console.warn(
         "Delete deployment by identifier: deploymentId is not defined",
       );
       return;
     }
 
-    logger.debug({ deploymentId }, "Start to delete deployment by identifier");
+    console.debug("Start to delete deployment by identifier", { deploymentId });
 
     return this.axiosInstance
       .delete(`/deployment/${deploymentId}`)
@@ -313,9 +311,9 @@ module.exports = class CamundaApiHttpClient {
         return status === 204 ? data : undefined;
       })
       .catch((error) => {
-        logger.error(
-          { deploymentId, error },
+        console.error(
           "Removing of deployment by identifier has completed with error",
+          { deploymentId, error },
         );
       });
   }
@@ -328,11 +326,11 @@ module.exports = class CamundaApiHttpClient {
    */
   suspendBatch(batchId) {
     if (!batchId) {
-      logger.warn("Suspend batch by identifier: batchId is not defined");
+      console.warn("Suspend batch by identifier: batchId is not defined");
       return;
     }
 
-    logger.debug({ batchId }, "Start to suspend batch by identifier");
+    console.debug("Start to suspend batch by identifier", { batchId });
 
     const body = {
       suspended: true,
@@ -344,9 +342,9 @@ module.exports = class CamundaApiHttpClient {
         return status === 204 ? data : undefined;
       })
       .catch((error) => {
-        logger.error(
-          { batchId, error },
+        console.error(
           "Suspending of batch by identifier has completed with error",
+          { batchId, error },
         );
       });
   }
@@ -359,11 +357,11 @@ module.exports = class CamundaApiHttpClient {
    */
   deleteBatch(batchId) {
     if (!batchId) {
-      logger.warn("Delete batch by identifier: batchId is not defined");
+      console.warn("Delete batch by identifier: batchId is not defined");
       return;
     }
 
-    logger.debug({ batchId }, "Start to delete batch by identifier");
+    console.debug("Start to delete batch by identifier", { batchId });
 
     return this.axiosInstance
       .delete(`/batch/${batchId}`)
@@ -371,9 +369,9 @@ module.exports = class CamundaApiHttpClient {
         return status === 204 ? data : undefined;
       })
       .catch((error) => {
-        logger.error(
-          { batchId, error },
+        console.error(
           "Removing of batch by identifier has completed with error",
+          { batchId, error },
         );
       });
   }

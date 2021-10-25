@@ -19,7 +19,6 @@
 /* eslint-disable consistent-return, no-await-in-loop */
 
 const Manipula = require("manipula");
-const logger = require("pino").pino({ prettyPrint: true });
 
 const CamundaApiHttpClient = require("../clients/camundaApiHttpClient");
 const {
@@ -39,15 +38,15 @@ const getProcessDefinitionIdsForMigration = async (
   camundaApiHttpClient,
 ) => {
   if (!processDefinition) {
-    logger.warn(
+    console.warn(
       "Get process definition ids for migration: processDefinition is not defined",
     );
     return;
   }
 
-  logger.debug(
-    { processDefinition },
+  console.debug(
     "Start to get process definition ids for migration with process definition",
+    { processDefinition },
   );
 
   let sourceProcessDefinitionIds;
@@ -108,11 +107,11 @@ const getProcessDefinitionIdsForMigration = async (
  */
 const checkBatchCompletion = async (batchId, camundaApiHttpClient) => {
   if (!batchId) {
-    logger.warn("Check batch completion: batchId is not defined");
+    console.warn("Check batch completion: batchId is not defined");
     return false;
   }
 
-  logger.debug({ batchId }, "Start to check batch completion by identifier");
+  console.debug("Start to check batch completion by identifier", { batchId });
 
   const getBatchesStatisticsResponse =
     await camundaApiHttpClient.getBatchesStatistics({ batchId });
@@ -145,14 +144,13 @@ const delay = (duration) =>
  */
 const waitBatchExecutionCompletion = async (batchId, camundaApiHttpClient) => {
   if (!batchId) {
-    logger.warn("Wait batch execution completion: batchId is not defined");
+    console.warn("Wait batch execution completion: batchId is not defined");
     return;
   }
 
-  logger.debug(
-    { batchId },
-    "Start to wait batch execution completion by identifier",
-  );
+  console.debug("Start to wait batch execution completion by identifier", {
+    batchId,
+  });
 
   let isCompleted = await checkBatchCompletion(batchId, camundaApiHttpClient);
 
@@ -171,14 +169,13 @@ const waitBatchExecutionCompletion = async (batchId, camundaApiHttpClient) => {
  */
 const checkBatchExecutionResult = async (batchId, camundaApiHttpClient) => {
   if (!batchId) {
-    logger.warn("Check batch execution result: batchId is not defined");
+    console.warn("Check batch execution result: batchId is not defined");
     return false;
   }
 
-  logger.debug(
-    { batchId },
-    "Start to check batch execution result by identifier",
-  );
+  console.debug("Start to check batch execution result by identifier", {
+    batchId,
+  });
 
   const getBatchesStatisticsResponse =
     await camundaApiHttpClient.getBatchesStatistics({ batchId });
@@ -201,14 +198,13 @@ const checkBatchExecutionResult = async (batchId, camundaApiHttpClient) => {
  */
 const deleteDeployment = async (processDefinitionId, camundaApiHttpClient) => {
   if (!processDefinitionId) {
-    logger.warn("Delete deployment: processDefinitionId is not defined");
+    console.warn("Delete deployment: processDefinitionId is not defined");
     return;
   }
 
-  logger.debug(
-    { processDefinitionId },
-    "Start to delete deployment by process definition identifier",
-  );
+  console.debug("Start to delete deployment by process definition identifier", {
+    processDefinitionId,
+  });
 
   const processDefinition = await camundaApiHttpClient.getProcessDefinitionById(
     processDefinitionId,
@@ -231,11 +227,11 @@ const deleteDeployment = async (processDefinitionId, camundaApiHttpClient) => {
  */
 const deleteFailedBatch = async (batchId, camundaApiHttpClient) => {
   if (!batchId) {
-    logger.warn("Delete failed batch: batchId is not defined");
+    console.warn("Delete failed batch: batchId is not defined");
     return;
   }
 
-  logger.debug({ batchId }, "Start to delete  failed batch by identifier");
+  console.debug("Start to delete  failed batch by identifier", { batchId });
 
   await camundaApiHttpClient.suspendBatch(batchId);
 
@@ -258,15 +254,15 @@ const executeProcessInstancesMigration = async (
   camundaApiHttpClient,
 ) => {
   if (!sourceProcessDefinitionId || !targetProcessDefinitionId) {
-    logger.warn(
+    console.warn(
       "Execute process instances migration: sourceProcessDefinitionId and / or targetProcessDefinitionId is not defined",
     );
     return;
   }
 
-  logger.debug(
-    { sourceProcessDefinitionId, targetProcessDefinitionId },
+  console.debug(
     "Start to execute process instances migration from source version to target version",
+    { sourceProcessDefinitionId, targetProcessDefinitionId },
   );
 
   const migrationBatch = await camundaApiHttpClient.migrateProcessInstances(
@@ -326,7 +322,9 @@ const migrateProcessInstances = async (request) => {
   );
 
   if (processDefinitions.length === 0) {
-    logger.warn("Migrate process instances: processDefinitions.length is zero");
+    console.warn(
+      "Migrate process instances: processDefinitions.length is zero",
+    );
     return;
   }
 
@@ -350,10 +348,9 @@ const migrateProcessInstances = async (request) => {
           !sourceProcessDefinitionInstances ||
           sourceProcessDefinitionInstances.length === 0
         ) {
-          logger.warn(
-            { currentSourceProcessDefinitionId },
-            "Process definition has no any running instances",
-          );
+          console.warn("Process definition has no any running instances", {
+            currentSourceProcessDefinitionId,
+          });
 
           await deleteDeployment(
             currentSourceProcessDefinitionId,
@@ -367,11 +364,11 @@ const migrateProcessInstances = async (request) => {
               camundaApiHttpClient,
             );
 
-          logger.info(
-            { currentSourceProcessDefinitionId, targetProcessDefinitionId },
+          console.log(
             `Migration has ${
               isSuccessedMigrationBatch ? "successed" : "failed"
             }`,
+            { currentSourceProcessDefinitionId, targetProcessDefinitionId },
           );
 
           // eslint-disable-next-line no-unused-expressions

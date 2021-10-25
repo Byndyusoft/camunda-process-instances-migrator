@@ -16,8 +16,6 @@
 
 "use strict";
 
-const logger = require("pino").pino({ prettyPrint: true });
-
 // eslint-disable-next-line node/no-unpublished-require
 require("dotenv").config();
 
@@ -39,6 +37,6 @@ const {
       },
     ]);
   } catch (error) {
-    logger.error(error, "Error while migrate process instances");
+    console.error("Error while migrate process instances", error);
   }
 })();
