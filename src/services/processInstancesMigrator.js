@@ -295,13 +295,13 @@ const prepareMigrateProcessInstancesRequest = async (
   request,
   camundaApiHttpClient,
 ) => {
-  if (request[0].name === "All") {
-    const processDifinitions =
+  if (request[0].name === "ALL") {
+    const processDefinitions =
       await camundaApiHttpClient.listProcessDefinitions({
         latestVersion: true,
       });
 
-    return (processDifinitions || []).map((x) => {
+    return (processDefinitions || []).map((x) => {
       return {
         name: x.key,
       };
@@ -320,20 +320,20 @@ const prepareMigrateProcessInstancesRequest = async (
 const migrateProcessInstances = async (request) => {
   const camundaApiHttpClient = new CamundaApiHttpClient();
 
-  const processDifinitions = await prepareMigrateProcessInstancesRequest(
+  const processDefinitions = await prepareMigrateProcessInstancesRequest(
     request,
     camundaApiHttpClient,
   );
 
-  if (processDifinitions.length === 0) {
-    logger.warn("Migrate process instances: processDifinitions.length is zero");
+  if (processDefinitions.length === 0) {
+    logger.warn("Migrate process instances: processDefinitions.length is zero");
     return;
   }
 
-  for (let i = 0; i < processDifinitions.length; i += 1) {
+  for (let i = 0; i < processDefinitions.length; i += 1) {
     const { sourceProcessDefinitionIds, targetProcessDefinitionId } =
       await getProcessDefinitionIdsForMigration(
-        processDifinitions[i],
+        processDefinitions[i],
         camundaApiHttpClient,
       );
 

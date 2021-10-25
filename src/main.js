@@ -18,6 +18,9 @@
 
 const logger = require("pino").pino({ prettyPrint: true });
 
+// eslint-disable-next-line node/no-unpublished-require
+require("dotenv").config();
+
 const {
   migrateProcessInstances,
 } = require("./services/processInstancesMigrator");
@@ -27,8 +30,12 @@ const {
     await migrateProcessInstances([
       {
         name: process.env.PROCESS_DEFINITION_NAME,
-        sourceProcessDefinitionId: process.env.SOURCE_PROCESS_DEFINITION_ID,
-        targetProcessDefinitionId: process.env.TARGET_PROCESS_DEFINITION_ID,
+        sourceProcessDefinitionId: process.env.SOURCE_PROCESS_DEFINITION_VERSION
+          ? Number(process.env.SOURCE_PROCESS_DEFINITION_VERSION)
+          : undefined,
+        targetProcessDefinitionId: process.env.TARGET_PROCESS_DEFINITION_VERSION
+          ? Number(process.env.TARGET_PROCESS_DEFINITION_VERSION)
+          : undefined,
       },
     ]);
   } catch (error) {
