@@ -12,6 +12,13 @@
   },
   "license": "Apache-2.0",
   "author": "Byndyusoft",
+  "main": "./src/main.js",
+  "bin": {
+    "tokens-migrator": "./src/main.js"
+  },
+  "files": [
+    "src"
+  ],
   "scripts": {
     "build": "echo '(・_・)ノ'",
     "postinstall": "husky install",

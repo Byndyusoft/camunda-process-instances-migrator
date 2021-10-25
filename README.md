@@ -34,26 +34,26 @@ yarn start
 
 ## Usage
 
-### Мигрировать экземпляры всех процессов со всех версий на последнюю
+### Migrate instances of all processes from all versions to the latest
 
 ```javascript
 PROCESS_DEFINITION_NAME = ALL;
 ```
 
-### Мигрировать экземпляры указанного процесса со всех версий на последнюю
+### Migrate instances of the specified process from all versions to the latest
 
 ```javascript
 PROCESS_DEFINITION_NAME = <DEFINITION_NAME>
 ```
 
-### Мигрировать экземпляры указанного процесса с 1 версии на последнюю
+### Migrate instances of the specified process from version 1 to the latest
 
 ```javascript
 PROCESS_DEFINITION_NAME = <DEFINITION_NAME>
 SOURCE_PROCESS_DEFINITION_VERSION = 1
 ```
 
-### Мигрировать экземпляры указанного процесса с 1 версии на 2 версию
+### Migrate instances of the specified process from version 1 to version 2
 
 ```javascript
 PROCESS_DEFINITION_NAME = <DEFINITION_NAME>

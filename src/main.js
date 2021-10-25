@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
  * Copyright 2021 Byndyusoft
  *
@@ -16,7 +17,6 @@
 
 "use strict";
 
-// eslint-disable-next-line node/no-unpublished-require
 require("dotenv").config();
 
 const {
