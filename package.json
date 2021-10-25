@@ -1,6 +1,6 @@
 {
   "name": "@byndyusoft/camunda-process-instances-migrator",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "description": "Console application for Camunda's process instances migrations between versions of BPMN schemes",
   "homepage": "https://github.com/Byndyusoft/camunda-process-instances-migrator#readme",
   "bugs": {
