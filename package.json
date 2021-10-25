@@ -25,18 +25,18 @@
     "lint:prettier:fix": "prettier --ignore-path ./.gitignore --write \"./**/*.{ts,js,json,yaml,yml,md}\"",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable",
-    "start": "node -r dotenv/config ./src/main.js",
+    "start": "node ./src/main.js",
     "test:cov": "echo '╮(˘､˘)╭'"
   },
   "dependencies": {
     "axios": "^0.23.0",
+    "dotenv": "^10.0.0",
     "manipula": "^1.2.12"
   },
   "devDependencies": {
     "@byndyusoft/eslint-config": "^1.1.0",
     "@commitlint/cli": "^13.2.0",
     "@commitlint/config-conventional": "^13.2.0",
-    "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
