@@ -1,17 +1,24 @@
 {
-  "name": "@byndyusoft/base-template",
+  "name": "@byndyusoft/camunda-process-instances-migrator",
   "version": "0.0.0-development",
-  "description": "Base template for Node.js packages",
-  "homepage": "https://github.com/Byndyusoft/node-base-template#readme",
+  "description": "Console application for Camunda's process instances migrations between versions of BPMN schemes",
+  "homepage": "https://github.com/Byndyusoft/camunda-process-instances-migrator#readme",
   "bugs": {
-    "url": "https://github.com/Byndyusoft/node-base-template/issues"
+    "url": "https://github.com/Byndyusoft/camunda-process-instances-migrator/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Byndyusoft/node-base-template.git"
+    "url": "https://github.com/Byndyusoft/camunda-process-instances-migrator.git"
   },
   "license": "Apache-2.0",
   "author": "Byndyusoft",
+  "main": "./src/main.js",
+  "bin": {
+    "tokens-migrator": "./src/main.js"
+  },
+  "files": [
+    "src"
+  ],
   "scripts": {
     "build": "echo '(・_・)ノ'",
     "postinstall": "husky install",
@@ -25,7 +32,13 @@
     "lint:prettier:fix": "prettier --ignore-path ./.gitignore --write \"./**/*.{ts,js,json,yaml,yml,md}\"",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable",
+    "start": "node ./src/main.js",
     "test:cov": "echo '╮(˘､˘)╭'"
+  },
+  "dependencies": {
+    "axios": "^0.23.0",
+    "dotenv": "^10.0.0",
+    "manipula": "^1.2.12"
   },
   "devDependencies": {
     "@byndyusoft/eslint-config": "^1.1.0",
