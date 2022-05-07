@@ -20,6 +20,7 @@ You must initialize `process.env` before start migrator:
 
 ```javascript
 process.env.INTEGRATIONS_CAMUNDA_API_BASE_URI; #required
+process.env.INTEGRATIONS_CAMUNDA_COOKIE;       #optional
 process.env.PROCESS_DEFINITION_NAME;           #required
 process.env.SOURCE_PROCESS_DEFINITION_VERSION; #optional
 process.env.TARGET_PROCESS_DEFINITION_VERSION; #optional
