@@ -31,6 +31,7 @@ module.exports = class CamundaApiHttpClient {
       baseURL: process.env.INTEGRATIONS_CAMUNDA_API_BASE_URI,
       headers: {
         Accept: "application/json",
+        Cookie: process.env.INTEGRATIONS_CAMUNDA_COOKIE,
       },
     });
 
