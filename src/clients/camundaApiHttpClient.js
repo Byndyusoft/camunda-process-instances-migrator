@@ -19,6 +19,7 @@
 /* eslint-disable consistent-return */
 
 const { default: axios } = require("axios");
+const _ = require("lodash");
 
 module.exports = class CamundaApiHttpClient {
   /**
@@ -29,10 +30,13 @@ module.exports = class CamundaApiHttpClient {
   constructor() {
     this.axiosInstance = axios.create({
       baseURL: process.env.INTEGRATIONS_CAMUNDA_API_BASE_URI,
-      headers: {
-        Accept: "application/json",
-        Cookie: process.env.INTEGRATIONS_CAMUNDA_COOKIE,
-      },
+      headers: _.omitBy(
+        {
+          Accept: "application/json",
+          Cookie: process.env.INTEGRATIONS_CAMUNDA_COOKIE,
+        },
+        (x) => x === undefined,
+      ),
     });
 
     this.axiosInstance.defaults.headers.post["Content-Type"] =
